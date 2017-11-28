@@ -13,6 +13,7 @@ package Nodebrew;
 
 use File::Path qw/rmtree mkpath/;
 use File::Basename qw/basename/;
+use Cwd qw/cwd/;
 
 our $VERSION = '0.9.7';
 
@@ -376,6 +377,8 @@ sub _cmd_exec {
 }
 
 sub _cmd_help {
+    get_working_dir_version();
+
     my ($self, $args) = @_;
 
     print <<"...";
@@ -534,6 +537,12 @@ sub get_current_version {
     return $1 if $current_version =~ m!^$self->{node_dir}/(.+)!;
     return "io\@$1" if $current_version =~ m!^$self->{iojs_dir}/(.+)!;
     return 'none';
+}
+
+sub get_working_dir_version {
+    my $cwd = cwd();
+    print "$cwd\n";
+
 }
 
 sub fetch_nodebrew {
